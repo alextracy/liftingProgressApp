@@ -5,22 +5,21 @@
 		isMetric: false
 		weightLifted: ''
 		repsPerformed: ''
-		oneRm: 0
+		oneRm: ''
 		coefficients: {
-			1: 1, 2: .943, 3: .906, 4: .881, 5: .851,
-			6: .831, 7: .807, 8: .786, 9: .765, 10: .744
+			1: 1, 2: .943, 3: .906, 4: .881, 5: .851, 6: .831, 7: .807, 8: .786, 9: .765, 10: .744
 		}
+	calculateOneRm: ->
+		if @state.weightLifted and @state.repsPerformed
+			@state.oneRm = @state.weightLifted / @state.coefficients[@state.repsPerformed]
+		else
+			0
 	handleValueChange: (e) ->
 		valueName = e.target.name
 		@setState "#{ valueName }": e.target.value
 	toggleUnit: (e) ->
 		e.preventDefault()
 		@setState isMetric: !@state.isMetric
-	calculateOneRm: ->
-		if @state.weightLifted and @state.repsPerformed
-			@state.oneRm = @state.weightLifted / @state.coefficients[@state.repsPerformed]
-		else
-			0
 	valid: ->
 		@state.date && @state.liftName && @state.weightLifted && @state.repsPerformed && @state.oneRm
 	handleSubmit: (e) ->
@@ -48,13 +47,9 @@
 					type: 'text'
 					className: 'form-control'
 					placeholder: 'Lift Name'
-					name: 'liftname'
+					name: 'liftName'
 					value: @state.liftName
 					onChange: @handleValueChange
-			React.DOM.a
-				className: 'btn btn-primary'
-				onClick: @toggleUnit
-				'Metric = ' + @state.isMetric.toString()
 			React.DOM.div
 				className: 'form-group'
 				React.DOM.input
@@ -84,6 +79,10 @@
 					name: 'oneRm'
 					value: @state.oneRm
 					onChange: @handleValueChange
+			React.DOM.a
+				className: 'btn btn-primary'
+				onClick: @toggleUnit
+				'Metric = ' + @state.isMetric.toString()
 			React.DOM.button
 				type: 'submit'
 				className: 'btn btn-primary'

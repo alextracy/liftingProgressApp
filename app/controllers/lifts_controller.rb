@@ -1,4 +1,7 @@
 class LiftsController < ApplicationController
+
+  skip_before_action :verify_authenticity_token
+
   def create
     @lift = Lift.new(lift_params)
 
