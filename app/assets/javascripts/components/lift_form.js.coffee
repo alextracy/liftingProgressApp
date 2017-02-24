@@ -66,7 +66,7 @@ coefficients = {
 					min: 1
 					max: 10
 					className: 'form-control'
-					placeholder: '#'
+					placeholder: 'repsPerformed'
 					name: 'repsPerformed'
 					value: @state.repsPerformed
 					onChange: @handleValueChange
