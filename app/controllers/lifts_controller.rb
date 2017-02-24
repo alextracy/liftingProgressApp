@@ -2,6 +2,10 @@ class LiftsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
+  def index
+    @lifts = Lift.all
+  end
+
   def create
     @lift = Lift.new(lift_params)
 
@@ -12,8 +16,19 @@ class LiftsController < ApplicationController
     end
   end
 
-  def index
-    @lifts = Lift.all
+  def destroy
+    @lift = Lift.find(params[:id])
+    @lift.destroy
+    head :no_content
+  end
+
+  def update
+    @lift = Lift.find(params[:id])
+    if @lift.update(lift_params)
+      render json: @lift
+    else
+      render json: @lift.errors, status: :unprocessable_entity
+    end
   end
 
   private
